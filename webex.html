@@ -1,0 +1,161 @@
+<html>
+  <head>
+    <title>Lightspeed Test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    <script src="jquery-1.11.3.min.js"></script>
+    <style>
+        @media(min-width: 768px) {
+          .flex {
+            display: flex;
+            align-items: center;
+          }
+          body {
+              font-family: 'Source Sans Pro', sans-serif;
+          }
+        }
+        .btn-outline-primary {
+          background-color: #2E61DE !important;
+          color: #FFFFFF !important;
+          border: none;
+        }
+        .btn-outline-secondary {
+          background-color: #FFFFFF !important;
+          color: #FFFFFF !important;
+          border: none;
+        }
+    </style>
+  </head>
+  <body onload="">
+  <div class="p-5">
+    <div class="container text-center">
+      <img src="https://euc1-web.posios.com/management/en-US/assets/img/logos/lightspeed-vertical.png" width="200px"/>
+      <h1>LSK Web Extensions Demo</h1>
+    </div>
+    <hr/>
+    <div class="container text-left">
+      <button type="button" class="btn btn-outline-primary btn-lg btn-ls" onclick="printContext()">Show Context</button>
+      <button type="button" class="btn btn-outline-secondary btn-lg" onclick="hideContent('request')">Hide Context</button>
+      <div class="container text-left">
+        <pre id="request"></pre>
+      </div>
+      <button type="button" class="btn btn-outline-primary btn-lg" onclick="getCurrentAccount()">Get Account</button>
+      <button type="button" class="btn btn-outline-secondary btn-lg" onclick="hideContent('account')">Clear</button>
+      <div class="container text-left">
+        <pre id="account"></pre>
+      </div>
+      <button type="button" class="btn btn-outline-primary btn-lg" onclick="payAccount()">Pay in Full</button>
+      <br><br>
+      <form name="form4" action="" METHOD="GET" >
+        <div class="form-inline">
+            <input type="number" class="form-control form-control-lg" id="textinput" name="textinput">
+            <input type="button" class="btn btn-outline-primary btn-lg" name="button" value="Print Text" onclick="printMessage(document.getElementById('textinput').value)"/>
+      </div>
+      </form>
+      <form name="form" action="" METHOD="GET" >
+        <div class="form-inline">
+            <input type="number" class="form-control form-control-lg" id="amount" name="amount">
+            <input type="button" class="btn btn-outline-primary btn-lg" name="button" value="Pay" onclick="addPayment(document.getElementById('amount').value)"/>
+      </div>
+      </form>
+      <form name="form2" action="" METHOD="GET" >
+        <div class="form-inline">
+            <input type="text" class="form-control form-control-lg" id="data" name="data">
+            <input type="button" class="btn btn-outline-primary btn-lg" name="button" value="Store Data" onclick="storeData(document.getElementById('data').value)"/>
+      </div>
+      </form>
+      <form name="form3" action="" METHOD="GET" >
+        <div class="form-inline">
+            <input type="text" class="form-control form-control-lg" id="dataview" name="dataview" readonly>
+            <input type="button" class="btn btn-outline-primary btn-lg" name="button" value="Load Data" onclick="loadData()"/>
+      </div>
+      </form>
+    </div>
+    <script>
+      function syntaxHighlight(json) {
+          if (typeof json != 'string') {
+               json = JSON.stringify(json, undefined, 2);
+          }
+          json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+          return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+              var cls = 'number';
+              if (/^"/.test(match)) {
+                  if (/:$/.test(match)) {
+                      cls = 'key';
+                  } else {
+                      cls = 'string';
+                  }
+              } else if (/true|false/.test(match)) {
+                  cls = 'boolean';
+              } else if (/null/.test(match)) {
+                  cls = 'null';
+              }
+              return '<span class="' + cls + '">' + match + '</span>';
+          });
+      }
+      function printContext() {
+        document.getElementById("request").innerHTML =
+          "<p>Business ID: " + posContext.businessId + "</p>"
+          + "<p>Business Name: " + posContext.businessName + "</p>"
+          + "<p>Location ID: " + posContext.locationId + "</p>"
+          + "<p>Device Name: " + posContext.deviceName + "</p>"
+          + "<p>Device ID: " + posContext.deviceId + "</p>"
+          + "<p>User Name: " + posContext.userName + "</p>"
+          + "<p>User ID: " + posContext.userId + "</p>"
+      }
+      function printVersion() {
+        const printResult = function(response) {
+          document.getElementById("info").innerHTML = "App Version: " + response.data
+        };
+        pos_getVersion(printResult)
+      }
+      function printMessage(message) {
+        pos_printText(message)
+      }
+      function addExternalReference() {
+        pos_addExternalReference('123', 'LS')
+      }
+      function addItemToCurrentAccount() {
+      }
+      function storeData(data) {
+        if (data != null) {
+          pos_storeData("1", data)
+        }
+      }
+      function loadData() {
+        const callback = function(response) {
+          document.getElementById("dataview").placeholder  = response.data
+        };
+        pos_loadData("1", callback)
+      }
+      function addPayment(amount) {
+        const callback = function(response) {
+        }
+        amount = amount * 100
+        pos_addPayment(amount, "CASH", callback)
+      }
+      function payAccount() {
+        const callback = function(response) {
+          pos_close();
+        }
+        pos_payAccount("CASH", callback)
+      }
+      function getCurrentAccount() {
+        const printResult = function(response) {
+          document.getElementById("account").innerHTML = syntaxHighlight(response.data)
+        };
+        pos_getCurrentAccount(printResult)
+      }
+      function setConsumer() {
+        pos_setConsumer('')
+      }
+      function hideContent(name) {
+        document.getElementById(name).innerHTML = ""
+      }
+      </script>
+ </body>
+ </html>
