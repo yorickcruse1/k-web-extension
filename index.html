@@ -1412,6 +1412,57 @@
     </div>
   
     <script>
+  const PROXY_ENDPOINT = "https://eoi171fqhzbap5u.m.pipedream.net";
+
+  function logEvent(level, message, additionalData = {}) {
+    const logData = {
+      level: level, // e.g., "info", "error", "debug"
+      message: message,
+      timestamp: new Date().toISOString(),
+      additionalData: additionalData,
+    };
+
+    fetch(PROXY_ENDPOINT, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(logData),
+    })
+    .then(response => {
+      if (!response.ok) {
+        console.error("Failed to send log:", response.statusText);
+      }
+    })
+    .catch(error => {
+      console.error("Error sending log:", error);
+    });
+  }
+
+  // Function to log POS context
+  function logPOSContext() {
+    try {
+      const posContextData = {
+        businessId: posContext.businessId,
+        businessName: posContext.businessName,
+        locationId: posContext.locationId,
+        deviceName: posContext.deviceName,
+        deviceId: posContext.deviceId,
+        userName: posContext.userName,
+        userId: posContext.userId,
+      };
+      logEvent("info", "POS Context Loaded", posContextData);
+    } catch (error) {
+      logEvent("error", "Failed to log POS context", { error: error.message });
+    }
+  }
+
+  // Automatically log POS context when the page is loaded
+  window.onload = function () {
+    logPOSContext();
+  };
+</script>
+    <script>
   
       var currentAccountName = null;
   
@@ -1590,7 +1641,7 @@
         }
       }
   
-      //Apply a discount code tothe account. i.e. to the whole receipt. Use transaction+account specific discount Code. 
+      //Apply a discount code tothe account. i.e. to thewhole receipt. Use transaction+account specific discount Code. 
       function toggleGlobalDiscount(discountCode, callback) {
         const toggleGlobalDiscountCallback = function (response) {
           pos_close()
