@@ -102,7 +102,8 @@
       }
   
       #testFocus {
-        -webkit-user-select:none;
+        -webkit-user-select: none;
+        user-select: none;
       }
     </style>
   </head>
@@ -1526,6 +1527,7 @@
           document.getElementById("list-version-content").innerHTML = "App Version: " + response.data
         };
         pos_getVersion(printResult)
+        logFunctionCall("pos_getVersion", {}, response);
       }
   
       //GET CURRENT ACCOUNT DETAILS
