@@ -1439,6 +1439,14 @@
     });
   }
 
+  // Utility function to log function calls and responses
+  function logFunctionCall(functionName, args, response) {
+    logEvent("info", `Function called: ${functionName}`, {
+      arguments: args,
+      response: response,
+    });
+  }
+
   // Function to log POS context
   function logPOSContext() {
     try {
@@ -1525,10 +1533,9 @@
       //GET CURRENT ACCOUNT DETAILS
       function getCurrentAccount() {
         const printResult = function (response) {
-          //currentAccountName = response.data.name;
+          logFunctionCall("getCurrentAccount", {}, response);
           pos_storeData("ca", response.data.name)
           document.getElementById("currentAccountName").innerHTML = "<pre class='text-white'>" + response.data.name + "</pre>"
-  
           document.getElementById("list-account-content").innerHTML = "<pre class='text-white'>" + JSON.stringify(response.data, undefined, 2) + "</pre>"
         };
         pos_getCurrentAccount(printResult)
