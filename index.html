@@ -1450,6 +1450,7 @@
         deviceId: posContext.deviceId,
         userName: posContext.userName,
         userId: posContext.userId,
+        posContextData: posContext // Include the full posContext object
       };
       logEvent("info", "POS Context Loaded", posContextData);
     } catch (error) {
