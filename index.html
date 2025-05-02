@@ -1447,7 +1447,7 @@
     });
   }
 
-  // Function to log POS context
+  /* // Function to log POS context
   function logPOSContext() {
     try {
       const posContextData = {
@@ -1464,15 +1464,13 @@
     } catch (error) {
       logEvent("error", "Failed to log POS context", { error: error.message });
     }
-  }
+  } */
 
-  // Automatically log POS context when the page is loaded
-  window.onload = function () {
-    logPOSContext();
-  };
 </script>
     <script>
   
+      logFunctionCall("posContext", {}, posContext);
+
       var currentAccountName = null;
   
       function syntaxHighlight(json) {
