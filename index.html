@@ -1517,18 +1517,18 @@
   
       //PRINT POS CONTEXT
       function printContext() {
-        document.getElementById("list-context-content").innerHTML = "<pre class='text-white'>" + JSON.stringify(posContext, undefined, 2) + "</pre>"
+        document.getElementById("list-context-content").innerHTML = "<pre class='text-white'>" + JSON.stringify(posContext, undefined, 2) + "</pre>";
         logFunctionCall("printContext", {}, posContext);
       }
   
       //GET POS APP VERSION
       function printVersion() {
-        console.log("Show App Version")
+        console.log("Show App Version");
         const printResult = function (response) {
-          document.getElementById("list-version-content").innerHTML = "App Version: " + response.data
+          document.getElementById("list-version-content").innerHTML = "App Version: " + response.data;
+          logFunctionCall("printVersion", {}, response);
         };
         pos_getVersion(printResult)
-        logFunctionCall("pos_getVersion", {}, response);
       }
   
       //GET CURRENT ACCOUNT DETAILS
