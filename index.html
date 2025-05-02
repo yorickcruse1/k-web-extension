@@ -1470,7 +1470,7 @@
 </script>
     <script>
   
-      logFunctionCall("posContext", {}, posContext);
+/*       logFunctionCall("posContext", {}, posContext); */
 
       var currentAccountName = null;
   
@@ -1518,6 +1518,7 @@
       //PRINT POS CONTEXT
       function printContext() {
         document.getElementById("list-context-content").innerHTML = "<pre class='text-white'>" + JSON.stringify(posContext, undefined, 2) + "</pre>"
+        logFunctionCall("printContext", {}, posContext);
       }
   
       //GET POS APP VERSION
