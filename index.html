@@ -1448,29 +1448,8 @@
     });
   }
 
-  /* // Function to log POS context
-  function logPOSContext() {
-    try {
-      const posContextData = {
-        businessId: posContext.businessId,
-        businessName: posContext.businessName,
-        locationId: posContext.locationId,
-        deviceName: posContext.deviceName,
-        deviceId: posContext.deviceId,
-        userName: posContext.userName,
-        userId: posContext.userId,
-        posContextData: posContext // Include the full posContext object
-      };
-      logEvent("info", "POS Context Loaded", posContextData);
-    } catch (error) {
-      logEvent("error", "Failed to log POS context", { error: error.message });
-    }
-  } */
-
 </script>
     <script>
-  
-/*       logFunctionCall("posContext", {}, posContext); */
 
       var currentAccountName = null;
   
@@ -1545,16 +1524,28 @@
       //LOAD ACCOUNT BY NUMBER
       function loadAccountForNumber(accountNumber) {
         console.log(accountNumber)
-        try { pos_loadAccountForNumber(accountNumber) }
-        catch (error) { document.getElementById("errorAlert").innerHTML = error; $('.alert').alert() }
+        try {
+          pos_loadAccountForNumber(accountNumber)
+          logFunctionCall("loadAccountForNumber", { accountNumber }, "called");
+        }
+        catch (error) {
+          document.getElementById("errorAlert").innerHTML = error; $('.alert').alert()
+          logFunctionCall("loadAccountForNumber", { accountNumber }, { error: error.message });
+        }
         finally { pos_close() }
       }
   
       //LOAD ACCOUNT BY NAME
       function loadAccountForName(accountName) {
         console.log(accountName)
-        try { pos_loadAccountForName(accountName) }
-        catch (error) { document.getElementById("errorAlert").innerHTML = error; $('.alert').alert() }
+        try {
+          pos_loadAccountForName(accountName)
+          logFunctionCall("loadAccountForName", { accountName }, "called");
+        }
+        catch (error) {
+          document.getElementById("errorAlert").innerHTML = error; $('.alert').alert()
+          logFunctionCall("loadAccountForName", { accountName }, { error: error.message });
+        }
         finally { pos_close() }
       }
   
@@ -1564,8 +1555,14 @@
       */
       function addItemToCurrentAccount(itemID) {
         console.log(itemID)
-        try { pos_addItemToCurrentAccount(itemID) }
-        catch (error) { document.getElementById("errorAlert").innerHTML = error; $('.alert').alert() }
+        try {
+          pos_addItemToCurrentAccount(itemID)
+          logFunctionCall("addItemToCurrentAccount", { itemID }, "called");
+        }
+        catch (error) {
+          document.getElementById("errorAlert").innerHTML = error; $('.alert').alert()
+          logFunctionCall("addItemToCurrentAccount", { itemID }, { error: error.message });
+        }
         finally { pos_close() }
       }
   
@@ -1575,8 +1572,14 @@
       */
       function addSpecialItemToCurrentAccount(specialItemID, specialItemPrice, specialItemName) {
         console.log(specialItemID + "-" + specialItemPrice + "-" + specialItemName)
-        try { pos_addSpecialItemToCurrentAccount(specialItemID, specialItemPrice * 100, specialItemName) }
-        catch (error) { document.getElementById("errorAlert").innerHTML = error; $('.alert').alert() }
+        try {
+          pos_addSpecialItemToCurrentAccount(specialItemID, specialItemPrice * 100, specialItemName)
+          logFunctionCall("addSpecialItemToCurrentAccount", { specialItemID, specialItemPrice, specialItemName }, "called");
+        }
+        catch (error) {
+          document.getElementById("errorAlert").innerHTML = error; $('.alert').alert()
+          logFunctionCall("addSpecialItemToCurrentAccount", { specialItemID, specialItemPrice, specialItemName }, { error: error.message });
+        }
         finally { pos_close() }
       }
   
@@ -1585,8 +1588,14 @@
       pos_setConsumer(consumer)
       */
       function setConsumer(identifier, firstName, lastName, emailAddress) {
-        try { pos_setConsumer({ "identifier": identifier, "firstName": firstName, "lastName": lastName, "email": emailAddress }) }
-        catch (error) { document.getElementById("errorAlert").innerHTML = error; $('.alert').alert() }
+        try {
+          pos_setConsumer({ "identifier": identifier, "firstName": firstName, "lastName": lastName, "email": emailAddress })
+          logFunctionCall("setConsumer", { identifier, firstName, lastName, emailAddress }, "called");
+        }
+        catch (error) {
+          document.getElementById("errorAlert").innerHTML = error; $('.alert').alert()
+          logFunctionCall("setConsumer", { identifier, firstName, lastName, emailAddress }, { error: error.message });
+        }
         finally { pos_close() }
       }
   
@@ -1595,8 +1604,14 @@
       pos_setCurrentAccountCovers(covers)
       */
       function setCurrentAccountCovers(accountCovers) {
-        try { pos_setCurrentAccountCovers(accountCovers * 100) }
-        catch (error) { document.getElementById("errorAlert").innerHTML = error; $('.alert').alert() }
+        try {
+          pos_setCurrentAccountCovers(accountCovers * 100)
+          logFunctionCall("setCurrentAccountCovers", { accountCovers }, "called");
+        }
+        catch (error) {
+          document.getElementById("errorAlert").innerHTML = error; $('.alert').alert()
+          logFunctionCall("setCurrentAccountCovers", { accountCovers }, { error: error.message });
+        }
         finally { pos_close() }
       }
   
@@ -1604,8 +1619,14 @@
       Link a table with the current account.
      */
       function linkCurrentAccountWithTable(tableNumber) {
-        try { pos_linkCurrentAccountWithTable(tableNumber.toString()) }
-        catch (error) { document.getElementById("errorAlert").innerHTML = error; $('.alert').alert() }
+        try {
+          pos_linkCurrentAccountWithTable(tableNumber.toString())
+          logFunctionCall("linkCurrentAccountWithTable", { tableNumber }, "called");
+        }
+        catch (error) {
+          document.getElementById("errorAlert").innerHTML = error; $('.alert').alert()
+          logFunctionCall("linkCurrentAccountWithTable", { tableNumber }, { error: error.message });
+        }
         finally { pos_close() }
       }
   
@@ -1630,29 +1651,43 @@
       //CHANGE ACCOUNT Profile
       function changeAccountProfile(accountProfileCode) {
         console.log(accountProfileCode)
-        try { pos_changeAccountProfile(accountProfileCode) }
-        catch (error) { document.getElementById("errorAlert").innerHTML = error; $('.alert').alert() }
+        try {
+          pos_changeAccountProfile(accountProfileCode)
+          logFunctionCall("changeAccountProfile", { accountProfileCode }, "called");
+        }
+        catch (error) {
+          document.getElementById("errorAlert").innerHTML = error; $('.alert').alert()
+          logFunctionCall("changeAccountProfile", { accountProfileCode }, { error: error.message });
+        }
         finally { pos_close() }
       }
   
       //Get Available Discounts
       function getAvailableDiscounts() {
         const printResult = function (response) {
-          document.getElementById("list-discounts-content").innerHTML = "<pre class='text-white'>" + JSON.stringify(response.data, undefined, 2) + "</pre>"
-               };
-        pos_getAvailableDiscounts(printResult)
+          document.getElementById("list-discounts-content").innerHTML = "<pre class='text-white'>" + JSON.stringify(response.data, undefined, 2) + "</pre>";
+        };
+        try {
+          pos_getAvailableDiscounts(printResult);
+          logFunctionCall("getAvailableDiscounts", {}, "called");
+        } catch (error) {
+          logFunctionCall("getAvailableDiscounts", {}, { error: error.message });
+        }
       }
   
       //Apply a discount code to a line item of the account. Use "identifier" of the line item in the transactionLines and Account specific discount Code. 
       function toggleDiscount(itemDiscountCode, lineId, callback) {
         const toggleDiscountCallback = function (response) {
-          pos_close()
-        }
+          logFunctionCall("toggleDiscount", { itemDiscountCode, lineId }, response);
+          pos_close();
+          if (typeof callback === "function") callback(response);
+        };
         try {
-          pos_toggleDiscount(itemDiscountCode, lineId, toggleDiscountCallback)
-        }
-        catch (error) {
-          window.prompt(error)
+          pos_toggleDiscount(itemDiscountCode, lineId, toggleDiscountCallback);
+          logFunctionCall("toggleDiscount", { itemDiscountCode, lineId }, "called");
+        } catch (error) {
+          window.prompt(error);
+          logFunctionCall("toggleDiscount", { itemDiscountCode, lineId }, { error: error.message });
         }
       }
   
@@ -1660,11 +1695,18 @@
       function toggleGlobalDiscount(discountCode, callback) {
         const toggleGlobalDiscountCallback = function (response) {
           pos_close()
+          logFunctionCall("toggleGlobalDiscount", { discountCode }, response);
         }
-        try { pos_toggleGlobalDiscount(discountCode, toggleGlobalDiscountCallback) }
-        catch (error) { window.prompt(error) }
+        try { 
+          pos_toggleGlobalDiscount(discountCode, toggleGlobalDiscountCallback);
+          logFunctionCall("toggleGlobalDiscount", { discountCode }, "called");
+        }
+        catch (error) { 
+          window.prompt(error);
+          logFunctionCall("toggleGlobalDiscount", { discountCode }, { error: error.message });
+        }
       }
-  
+
       /*
       Adds a payment to the current account.
       pos_addPayment(amountCents, paymentMethodCode, callback)
@@ -1673,10 +1715,12 @@
         const callback = function (response) {
           document.getElementById("errorAlert").innerHTML = response; $('.alert').alert()
           pos_close()
+          logFunctionCall("addPayment", { paymentAmount, paymentMethodCode }, response);
         }
         pos_addPayment(paymentAmount * 100, paymentMethodCode, callback)
+        logFunctionCall("addPayment", { paymentAmount, paymentMethodCode }, "called");
       }
-  
+
       /*
       Adds a payment with Tips to the current account.
       pos_addPayment(amountCents, paymentMethodCode, tipCents, callback)
@@ -1685,10 +1729,12 @@
         const callback = function (response) {
           document.getElementById("errorAlert").innerHTML = response; $('.alert').alert()
           pos_close()
+          logFunctionCall("payAccountWithTips", { paymentAmount, paymentMethodCode, tipAmount }, response);
         }
         pos_payAccountWithTips(paymentAmount * 100, paymentMethodCode, tipAmount * 100, callback)
+        logFunctionCall("payAccountWithTips", { paymentAmount, paymentMethodCode, tipAmount }, "called");
       }
-  
+
       /*
       Pays for the current account.
       pos_payAccount(paymentMethodCode, callback) 
@@ -1698,43 +1744,63 @@
         const callback = function (response) {
           document.getElementById("errorAlert").innerHTML = response; $('.alert').alert();
           pos_close()
+          logFunctionCall("payAccount", { paymentMethodCode }, response);
         }
         pos_payAccount(paymentMethodCode, callback)
+        logFunctionCall("payAccount", { paymentMethodCode }, "called");
       }
-  
+
       /*
      PRINT TEXT MESSAGE TO PRINTER
      pos_printText(text)
      */
       function printMessage(message) {
         console.log(message)
-        try { pos_printText(message) }
-        catch (error) { document.getElementById("errorAlert").innerHTML = error; $('.alert').alert() }
+        try { 
+          pos_printText(message);
+          logFunctionCall("printMessage", { message }, "called");
+        }
+        catch (error) { 
+          document.getElementById("errorAlert").innerHTML = error; $('.alert').alert();
+          logFunctionCall("printMessage", { message }, { error: error.message });
+        }
         finally { pos_close() }
       }
-  
+
       /*
       Adds an external reference with the specified prefix.
       pos_addExternalReference(reference, prefix) 
       */
       function addExternalReference(externalReference, prefix) {
         console.log(externalReference + "-" + prefix)
-        try { pos_addExternalReference(externalReference, prefix) }
-        catch (error) { document.getElementById("errorAlert").innerHTML = error; $('.alert').alert() }
+        try { 
+          pos_addExternalReference(externalReference, prefix);
+          logFunctionCall("addExternalReference", { externalReference, prefix }, "called");
+        }
+        catch (error) { 
+          document.getElementById("errorAlert").innerHTML = error; $('.alert').alert();
+          logFunctionCall("addExternalReference", { externalReference, prefix }, { error: error.message });
+        }
         finally { pos_close() }
       }
-  
+
       /*
       Stores data in the POS app's defaults using the specified key.
       pos_storeData(key, value)
       */
       function saveData(key, value) {
         console.log(key + "-" + value)
-        try { pos_storeData(key, value) }
-        catch (error) { document.getElementById("errorAlert").innerHTML = error; $('.alert').alert() }
+        try { 
+          pos_storeData(key, value);
+          logFunctionCall("saveData", { key, value }, "called");
+        }
+        catch (error) { 
+          document.getElementById("errorAlert").innerHTML = error; $('.alert').alert();
+          logFunctionCall("saveData", { key, value }, { error: error.message });
+        }
         finally { pos_close() }
       }
-  
+
       /*
       Loads data from the POS app's defaults using the specified key.
       pos_loadData(key, callback)
@@ -1744,22 +1810,24 @@
           document.getElementById("loadData").placeholder = response.data
           document.getElementById("errorAlert").innerHTML = response.data
           $('.alert').alert()
+          logFunctionCall("loadData", { key }, response);
         };
         pos_loadData(key, callback)
+        logFunctionCall("loadData", { key }, "called");
       }
-  
+
       //HIDE CONTENT
       function hideContent(name) {
         document.getElementById(name).innerHTML = ""
       }
-  
+
       /*
       Camera Functions
       */
       const videoElem = document.getElementById('video');
       const errorElem = document.getElementById('error');
       let receivedMediaStream = null;
-  
+
       //Declare the MediaStreamConstraints object
       const constraints = {
         audio: true,
@@ -1767,33 +1835,37 @@
           facingMode: { exact: "environment" }
         }
       }
-  
+
       function openCamera() {
+        logFunctionCall("openCamera", {}, "called");
         //Ask the User for the access of the device camera and microphone
         navigator.mediaDevices.getUserMedia(constraints)
           .then(mediaStream => {
             // The received mediaStream contains both the 
             // video and audio media data
-  
+
             //Add the mediaStream directly to the source of the video element
             // using the srcObject attribute
             videoElem.srcObject = mediaStream;
-  
+
             // make the received mediaStream available globally
             receivedMediaStream = mediaStream;
-  
+
+            logFunctionCall("openCamera", {}, "mediaStream opened");
           }).catch(err => {
             // handling the error if any
             errorElem.innerHTML = err;
             errorElem.style.display = "block";
+            logFunctionCall("openCamera", {}, { error: err.message });
           });
-  
+
       }
-  
+
       const closeCamera = () => {
         if (!receivedMediaStream) {
           errorElem.innerHTML = "Camera is already closed!";
           errorElem.style.display = "block";
+          logFunctionCall("closeCamera", {}, "already closed");
         } else {
           /* MediaStream.getTracks() returns an array of all the 
           MediaStreamTracks being used in the received mediaStream
@@ -1804,18 +1876,22 @@
           });
           errorElem.innerHTML = "Camera closed successfully!"
           errorElem.style.display = "block";
+          logFunctionCall("closeCamera", {}, "closed successfully");
         }
       }
-  
+
         //Commit and Reload CURRENT ACCOUNT DETAILS
       function commitReloadAccount() {
+        logFunctionCall("commitReloadAccount", {}, "called");
         pos_loadData("ca", (result) => {
           document.getElementById("loadAccountName").innerHTML = "<pre class='text-white'>" +  JSON.stringify(result, undefined, 2) + "</pre>"
           pos_loadAccountForName(result.data);
+          logFunctionCall("commitReloadAccount", { ca: result.data }, "account loaded");
         });
         
         const printResult = function (response) {
           document.getElementById("list-commitReloadAccount-content").innerHTML = "<pre class='text-white'>" + JSON.stringify(response.data, undefined, 2) + "</pre>"
+          logFunctionCall("commitReloadAccount", {}, response);
         };
         pos_getCurrentAccount(printResult)
       }
