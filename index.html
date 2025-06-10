@@ -1614,11 +1614,17 @@
       */
       function checkIfTableAvailable(tableNumber) {
         const printResult = function (response) {
-          document.getElementById("list-tableStatus-content").innerHTML = "<pre class='text-white'>" + JSON.stringify(response.data, undefined, 2) + "</pre>"
+          document.getElementById("list-tableStatus-content").innerHTML =
+            "<pre class='text-white'>" + JSON.stringify(response.data, undefined, 2) + "</pre>";
+          logFunctionCall("checkIfTableAvailable", { tableNumber }, response);
         };
-        try { pos_checkIfTableAvailable(tableNumber.toString(), printResult) }
-        catch (error) { document.getElementById("errorAlert").innerHTML = error; $('.alert').alert() }
-        finally { }
+        try {
+          pos_checkIfTableAvailable(tableNumber.toString(), printResult);
+        } catch (error) {
+          document.getElementById("errorAlert").innerHTML = error;
+          $('.alert').alert();
+          logFunctionCall("checkIfTableAvailable", { tableNumber }, { error: error.message });
+        }
       }
   
       //CHANGE ACCOUNT Profile
@@ -1633,7 +1639,7 @@
       function getAvailableDiscounts() {
         const printResult = function (response) {
           document.getElementById("list-discounts-content").innerHTML = "<pre class='text-white'>" + JSON.stringify(response.data, undefined, 2) + "</pre>"
-        };
+               };
         pos_getAvailableDiscounts(printResult)
       }
   
