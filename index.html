@@ -1523,27 +1523,17 @@
   
       //LOAD ACCOUNT BY NUMBER
       function loadAccountForNumber(accountNumber) {
-    console.log(accountNumber);
-
-    try {
-        // Call pos_loadAccountForNumber with the account number and capture the response
-        const response = pos_loadAccountForNumber(accountNumber);
-
-        // Log the response
-        logFunctionCall("loadAccountForNumber", { accountNumber }, response);
-    } catch (error) {
-        // If an error occurs, display the error message in the errorAlert element
-        document.getElementById("errorAlert").innerHTML = error;
-        $('.alert').alert();
-
-        // Log the function call with the account number and the error message
-        logFunctionCall("loadAccountForNumber", { accountNumber }, { error: error.message });
-    } finally {
-        // Ensure the POS view is closed regardless of success or failure
-        pos_close();
-    }
-}
-
+        console.log(accountNumber)
+        try {
+          pos_loadAccountForNumber(accountNumber)
+          logFunctionCall("loadAccountForNumber", { accountNumber }, "called");
+        }
+        catch (error) {
+          document.getElementById("errorAlert").innerHTML = error; $('.alert').alert()
+          logFunctionCall("loadAccountForNumber", { accountNumber }, { error: error.message });
+        }
+        finally { pos_close() }
+      }
   
       //LOAD ACCOUNT BY NAME
       function loadAccountForName(accountName) {
